@@ -1,4 +1,10 @@
 // Generally fast for all primes under 10,000.  Decent speed up to 1,000,000.
+
+module.exports = {
+  smallPrimes,
+  factorization
+};
+
 function *smallPrimes() {
   yield 2;
   yield 3;
@@ -43,9 +49,3 @@ function factorization (num) {
   if (num > 1) factorOut(num);
   return p;
 }
-
-module.exports = {
-  smallPrimes,
-  factorization
-};
-

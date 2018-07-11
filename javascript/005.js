@@ -9,6 +9,7 @@ for(let prime of smallPrimes()) {
 }
 
 let output = Object.keys(p)
+  .map(Number)
   .map(num => num ** p[num])
   .reduce((product, num) => product * num);
 

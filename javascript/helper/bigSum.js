@@ -1,3 +1,7 @@
+module.exports = {
+  linkedListNum
+};
+
 function digit (digitStr) {
   this.value = Number(digitStr);
   this.next = null;
@@ -48,8 +52,4 @@ linkedListNum.prototype.print = function () {
     currentNode = currentNode.next;
   }
   return output[0] === '0' ? output.slice(1) : output;
-};
-
-module.exports = {
-  linkedListNum
 };
