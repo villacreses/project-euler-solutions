@@ -23,6 +23,29 @@ function *smallPrimes() {
   }
 }
 
+function factorization (num) {
+  if (num === 1) return {1: 1};
+  let p = {};
+
+  const factorOut = factor => {
+    let exp = 0;
+    while (num % factor === 0) {
+      num /= factor;
+      exp++;
+    }
+    if (exp > 0) p[factor] = exp;
+  };
+
+  factorOut(2);
+  for (let i = 3; i * i < num; i += 2) {
+    factorOut(i);
+  }
+  if (num > 1) factorOut(num);
+  return p;
+}
+
 module.exports = {
-  smallPrimes
+  smallPrimes,
+  factorization
 };
+

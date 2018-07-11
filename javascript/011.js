@@ -21,27 +21,22 @@ const grid = `08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
   .split('\n')
   .map(line => line.split(' ').map(Number));
 
-const findProd = direction => [0, 1, 2, 3].reduce((prod, num) => prod * direction(num));
+const direction = (r, c) => (i, j) => (prod, num) => prod * grid[i + r * num][j + c * num];
 
-const right = (i, j) => num => grid[i][j + num];
-const down = (i, j) => num => grid[i][j + num];
-const upRight = (i, j) => num => grid[i][j + num];
-const downRight = (i, j) => num => grid[i][j + num];
+const right = direction(0, 1);
+const down = direction(1, 0);
+const upRight = direction(-1, 1);
+const downRight = direction(1, 1);
 
-const greatestInPosition = (row, col) => Math.max(
-  findProd(right(row, col)),
-  findProd(down(row, col)),
-  findProd(upRight(row, col)),
-  findProd(downRight(row, col))
-);
-
-let localMax = 0;
+const findProd = reducer => [0, 1, 2, 3].reduce(reducer, 1);
 let max = 0;
 
-grid.forEach(row => {
-  row.forEach(col => {
-    localMax = greatestInPosition(row, col);
-    if (localMax > max) max = localMax;
+grid.forEach((row, i) => {
+  row.forEach((col, j) => {
+    if (j + 4 < grid.length) max = Math.max(max, findProd(right(i, j)));
+    if (i + 4 < grid.length) max = Math.max(max, findProd(down(i, j)));
+    if (i + 4 < grid.length && j + 4 < grid.length) max = Math.max(max, findProd(downRight(i, j)));
+    if (j + 4 < grid.length && i > 4) max = Math.max(max, findProd(upRight(i, j)));
   });
 });
 
