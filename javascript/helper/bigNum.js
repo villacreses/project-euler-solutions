@@ -102,13 +102,26 @@ const linkedListToStr = head => {
   return output;
 };
 
-const longArithmetic = fn => (numStr1, numStr2) =>
-  linkedListToStr(fn(LinkedListNum(numStr1), LinkedListNum(numStr2)));
+const longArithmetic = fn => (numStr1, numStr2) => {
+  return linkedListToStr(fn(LinkedListNum(numStr1 + ''), LinkedListNum(numStr2 + '')));
+};
 
 const addLong = longArithmetic(addListNums);
 const multLong = longArithmetic(multListNums);
 
+const power = (base, exp) => {
+  const baseList = LinkedListNum(base + '');
+  let prodList = baseList;
+
+
+  for(let i = 2; i <= exp; i++) {
+    prodList = multListNums(prodList, baseList);
+  }
+  return linkedListToStr(prodList);
+}
+
 module.exports = {
   addLong,
-  multLong
+  multLong,
+  power
 };
