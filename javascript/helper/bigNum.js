@@ -41,54 +41,50 @@ const addListNums = (l1, l2) => {
   return head;
 };
 
+
+
+
 const multListNums = (l1, l2) => {
-  let products = [],
-      carry = 0,
-      l2Col = 0;
-  const l1Head = l1;
+  let [n1, n2] = [l1, l2];
 
-  const pushProduct = head => {
-    products.push(head);
-  }
+  let total = new Digit('0');
 
-  while (l2) {
-    let prod, head, node;
-    l1 = l1Head;
+  for (let col2 = 0; n2; col2++){
+    let node, head, product;
+    let carry = 0;
 
-    for (let i = 0; i < l2Col; i++) {
-      if(!node) {
-        node = new Digit('0');
-        head = node;
-      } else {
-        node.next = new Digit('0')
-      }
-    }
-
-    while (l1) {
-      prod = l1.value * l2.value + carry;
-      carry = Math.floor(prod / 10);
-
+    const addNode = num => {
       if (!node) {
-        node = new Digit(prod % 10);
+        node = new Digit(num);
         head = node;
       } else {
-        node.next = new Digit(prod % 10);
+        node.next = new Digit(num);
         node = node.next;
       }
+    };
 
-      l1 = l1 ? l1.next : null;
+    n1 = l1;
+
+    for (let z = 0; z < col2; z++) addNode(0);
+
+    for (; n1;) {
+      product = n1.value * n2.value + carry;
+      carry = Math.floor(product / 10);
+
+      addNode(product % 10);
+      n1 = n1.next;
     }
-    if (carry) {
-      node.next = new Digit(carry);
-      carry = 0;
-    }
-    pushProduct(head);
-    l2 = l2 ? l2.next : null;
-    l2Col++;
+
+    if (carry > 0) addNode(carry);
+
+    total = addListNums(total, head);
+    n2 = n2.next;
   }
-
-  return products.reduce(addListNums, new Digit('0'));
+  return total;
 };
+
+
+
 
 const linkedListToStr = head => {
   let node = head,
@@ -113,7 +109,7 @@ const power = (base, exp) => {
   let product = 1;
 
   for (let i = 0; i < exp; i++) {
-    product = multLong(product, base)
+    product = multLong(product, base);
   }
 
   return product;

@@ -1,4 +1,4 @@
-const { addLong, fact , power} = require('./helper/bigNum');
+const { addLong, fact } = require('./helper/bigNum');
 
 let product = fact(100);
 let sum = 0;

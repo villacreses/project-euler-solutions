@@ -2,7 +2,8 @@
 
 module.exports = {
   smallPrimes,
-  factorization
+  factorization,
+  isPrime
 };
 
 function *smallPrimes() {
@@ -48,4 +49,14 @@ function factorization (num) {
   }
   if (num > 1) factorOut(num);
   return p;
+}
+
+function isPrime (num) {
+  if (num % 2 === 0) return false;
+
+  for (let i = 3; i * i <= num; i += 2) {
+    if (num % i === 0) return false;
+  }
+
+  return true;
 }
