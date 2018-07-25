@@ -110,18 +110,28 @@ const addLong = longArithmetic(addListNums);
 const multLong = longArithmetic(multListNums);
 
 const power = (base, exp) => {
-  const baseList = LinkedListNum(base + '');
-  let prodList = baseList;
+  let product = 1;
 
-
-  for(let i = 2; i <= exp; i++) {
-    prodList = multListNums(prodList, baseList);
+  for (let i = 0; i < exp; i++) {
+    product = multLong(product, base)
   }
-  return linkedListToStr(prodList);
+
+  return product;
+};
+
+const fact = num => {
+  let output = num + '';
+
+  for (let i = num - 1; i > 0; i--) {
+    output = multLong(output, i + '')
+  }
+
+  return output
 }
 
 module.exports = {
   addLong,
   multLong,
-  power
+  power,
+  fact
 };
