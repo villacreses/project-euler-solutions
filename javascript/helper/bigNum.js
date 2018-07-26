@@ -42,8 +42,6 @@ const addListNums = (l1, l2) => {
 };
 
 
-
-
 const multListNums = (l1, l2) => {
   let [n1, n2] = [l1, l2];
 
@@ -82,8 +80,6 @@ const multListNums = (l1, l2) => {
   }
   return total;
 };
-
-
 
 
 const linkedListToStr = head => {

@@ -11,5 +11,4 @@ const terms = limit => {
   return unique.size;
 };
 
-console.log(terms(5));
-
+console.log(terms(100));
