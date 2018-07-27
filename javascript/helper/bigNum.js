@@ -115,11 +115,11 @@ const fact = num => {
   let output = num + '';
 
   for (let i = num - 1; i > 0; i--) {
-    output = multLong(output, i + '')
+    output = multLong(output, i);
   }
 
-  return output
-}
+  return output;
+};
 
 module.exports = {
   addLong,

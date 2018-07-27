@@ -3,10 +3,10 @@
 module.exports = {
   smallPrimes,
   factorization,
-  isPrime
+  isPrime,
 };
 
-function *smallPrimes() {
+function* smallPrimes() {
   yield 2;
   yield 3;
 
@@ -18,7 +18,7 @@ function *smallPrimes() {
     return true;
   };
 
-  for (let i = 5;; i += 6) {
+  for (let i = 5; ; i += 6) {
     if (isPrime(i)) {
       p.push(i);
       yield i;
@@ -30,7 +30,33 @@ function *smallPrimes() {
   }
 }
 
-function factorization (num) {
+function* primes() {
+  let sieve = {};
+
+  yield 2;
+
+  for (let i = 3; ; i += 2) {
+    if (!sieve[i]) {
+      yield i;
+      sieve[i] = new Set([i]);
+      sieve[i * i] = new Set([i]);
+    }
+
+    sieve[i].forEach(j => {
+      if (sieve[i + 2 * j]) sieve[i + 2 * j].add(j);
+      else sieve[i + 2 * j] = new Set([j]);
+    });
+    console.log(sieve);
+  }
+}
+
+let count = 0;
+for (let p of primes()) {
+  if (p > 100) break;
+  console.log(++count, p);
+}
+
+function factorization(num) {
   if (num === 1) return {1: 1};
   let p = {};
 
@@ -51,7 +77,7 @@ function factorization (num) {
   return p;
 }
 
-function isPrime (num) {
+function isPrime(num) {
   if (num % 2 === 0) return false;
 
   for (let i = 3; i * i <= num; i += 2) {
