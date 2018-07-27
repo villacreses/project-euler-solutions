@@ -1,13 +1,4 @@
-// Generally fast for all primes under 10,000.  Decent speed up to 1,000,000.
-
-module.exports = {
-  smallPrimes,
-  factorization,
-  isPrime,
-  primeSieve,
-};
-
-function* smallPrimes() {
+function *smallPrimes() {
   yield 2;
   yield 3;
 
@@ -57,24 +48,6 @@ function *primeSieve(limit) {
 }
 
 
-const limit = 1000000;
-for (let i = 0; i < 10; i++) {
-  console.time('sieve');
-  for (let p of primeSieve(limit)) {
-    if (p > limit) break;
-  }
-  console.timeEnd('sieve');
-}
-
-console.log('');
-for (let i = 0; i < 10; i++) {
-  console.time('custom');
-  for (let p of smallPrimes()) {
-    if (p > limit) break;
-  }
-  console.timeEnd('custom');
-}
-
 function factorization(num) {
   if (num === 1) return {1: 1};
   let p = {};
@@ -105,3 +78,10 @@ function isPrime(num) {
 
   return true;
 }
+
+module.exports = {
+  smallPrimes,
+  factorization,
+  isPrime,
+  primeSieve,
+};
