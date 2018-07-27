@@ -1,9 +1,9 @@
-const { smallPrimes } = require('./helper/primes');
+const { primeSieve } = require('./helper/primes');
 
 let p = {},
   limit = 20;
 
-for(let prime of smallPrimes()) {
+for(let prime of primeSieve()) {
   if (prime > limit) break;
   p[prime] = Math.floor(Math.log(limit) / Math.log(prime));
 }

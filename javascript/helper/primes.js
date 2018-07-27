@@ -4,6 +4,7 @@ module.exports = {
   smallPrimes,
   factorization,
   isPrime,
+  primeSieve,
 };
 
 function* smallPrimes() {
@@ -30,30 +31,48 @@ function* smallPrimes() {
   }
 }
 
-function* primes() {
-  let sieve = {};
+function *primeSieve(limit) {
+  if (!limit) throw new Error('Function "primeSieve" requires an upper bound');
+  var sieve = [];
 
-  yield 2;
+  sieve[1] = false;
 
-  for (let i = 3; ; i += 2) {
-    if (!sieve[i]) {
-      yield i;
-      sieve[i] = new Set([i]);
-      sieve[i * i] = new Set([i]);
+  for (let k = 2; k <= limit; k += 1) {
+    sieve[k] = true;
+  }
+
+  for (let k = 2; k * k <= limit; k += 1) {
+    if (sieve[k] !== true) {
+      continue;
     }
 
-    sieve[i].forEach(j => {
-      if (sieve[i + 2 * j]) sieve[i + 2 * j].add(j);
-      else sieve[i + 2 * j] = new Set([j]);
-    });
-    console.log(sieve);
+    for (let l = k * k; l <= limit; l += k) {
+      sieve[l] = false;
+    }
+  }
+
+  for (let i = 1; i < limit; i++) {
+    if (sieve[i]) yield i;
   }
 }
 
-let count = 0;
-for (let p of primes()) {
-  if (p > 100) break;
-  console.log(++count, p);
+
+const limit = 1000000;
+for (let i = 0; i < 10; i++) {
+  console.time('sieve');
+  for (let p of primeSieve(limit)) {
+    if (p > limit) break;
+  }
+  console.timeEnd('sieve');
+}
+
+console.log('');
+for (let i = 0; i < 10; i++) {
+  console.time('custom');
+  for (let p of smallPrimes()) {
+    if (p > limit) break;
+  }
+  console.timeEnd('custom');
 }
 
 function factorization(num) {
