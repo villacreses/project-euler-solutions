@@ -1,29 +1,4 @@
-function *smallPrimes() {
-  yield 2;
-  yield 3;
-
-  let p = [2, 3];
-  const isPrime = num => {
-    for (let i = 0; i < p.length && p[i] * p[i] <= num; i++) {
-      if (num % p[i] === 0) return false;
-    }
-    return true;
-  };
-
-  for (let i = 5; ; i += 6) {
-    if (isPrime(i)) {
-      p.push(i);
-      yield i;
-    }
-    if (isPrime(i + 2)) {
-      p.push(i + 2);
-      yield i + 2;
-    }
-  }
-}
-
-function *primeSieve(limit) {
-  if (!limit) throw new Error('Function "primeSieve" requires an upper bound');
+function *primeSieve(limit = 100) {
   var sieve = [];
 
   sieve[1] = false;
@@ -80,7 +55,6 @@ function isPrime(num) {
 }
 
 module.exports = {
-  smallPrimes,
   factorization,
   isPrime,
   primeSieve,
