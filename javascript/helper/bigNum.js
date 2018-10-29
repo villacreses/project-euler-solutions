@@ -3,53 +3,95 @@ function Digit (DigitStr) {
   this.next = null;
 }
 
-const LinkedListNum = (numString) => {
-  let node = new Digit(numString[numString.length - 1]);
-  const head = node;
+module.exports = class LinkedListNum {
+  constructor (numString) {
+    this.head = new Digit(numString[numString.length - 1]);
 
-  for (let i = numString.length - 2; i >= 0; i--) {
-    node.next = new Digit(numString[i]);
-    node = node.next;
+    for (let node = this.head, i = numString.length - 2; i >= 0; i--) {
+      node.next = new Digit(numString[i]);
+      node = node.next;
+    }
   }
 
-  return head;
-};
+  toString () {
+    let output = '';
+    for (let node = this.head; node; node = node.next) {
+      output = node.value + output;
+    }
 
-const addListNums = (l1, l2) => {
-  let sum, head, node;
-  let carry = 0;
+    return output;
+  }
 
-  while (l1 || l2 || carry) {
-    let a = l1 ? l1.value : 0;
-    let b = l2 ? l2.value : 0;
+  print () {
+    console.log(this.toString());
+  }
 
-    sum = a + b + carry;
-    carry = Math.floor(sum / 10);
+  plus (numString) {
+    const output = new LinkedListNum(this.toString());
+    let node = output.head;
 
-    if (!node) {
-      node = new Digit(sum % 10);
-      head = node;
-    } else {
-      node.next = new Digit(sum % 10);
+    let carry = 0;
+    for (let d = numString.length - 1; d >= 0 || carry > 0; d--) {
+      let sum = node.value + carry;
+      if (d >= 0) sum += Number(numString[d]);
+
+      node.value = sum % 10;
+      carry = Math.floor(sum / 10);
+
+      if (!node.next && (d > 0 || carry > 0)) node.next = new Digit(0);
       node = node.next;
     }
 
-    l1 = l1 ? l1.next : null;
-    l2 = l2 ? l2.next : null;
+    return output;
   }
 
-  return head;
+  add (numString) {
+    this.head = this.plus(numString).head;
+    return this;
+  }
+
+  minus (numString) {
+    return this;
+  }
+
+  subtract (numString) {
+    this.head = this.minus(numString).head;
+    return this;
+  }
+
+  times (numChar) {
+    const output = new LinkedListNum(this.toString());
+
+    let carry = 0;
+    let product;
+
+    for (let node = output.head; node; node = node.next) {
+      product = node.value * Number(numChar) + carry;
+      node.value = product % 10;
+      carry = Math.floor(product / 10);
+
+      if (!node.next && carry > 0) node.next = new Digit(0);
+    }
+
+    return output;
+  }
+
+  power (exp) {
+    const base = this.toString();
+    for (let i = 2; i <= exp; i++) this.times(base);
+
+    return this;
+  }
 };
 
-
+/*
 const multListNums = (l1, l2) => {
   let [n1, n2] = [l1, l2];
 
   let total = new Digit('0');
 
-  for (let col2 = 0; n2; col2++){
+  for (let col2 = 0, carry = 0; n2; col2++, n2 = n2.next){
     let node, head, product;
-    let carry = 0;
 
     const addNode = num => {
       if (!node) {
@@ -61,69 +103,18 @@ const multListNums = (l1, l2) => {
       }
     };
 
-    n1 = l1;
-
     for (let z = 0; z < col2; z++) addNode(0);
 
-    for (; n1;) {
+    for (n1 = l1; n1; n1 = n1.next) {
       product = n1.value * n2.value + carry;
       carry = Math.floor(product / 10);
-
       addNode(product % 10);
-      n1 = n1.next;
     }
 
     if (carry > 0) addNode(carry);
 
     total = addListNums(total, head);
-    n2 = n2.next;
   }
   return total;
 };
-
-
-const linkedListToStr = head => {
-  let node = head,
-    output = '';
-
-  while (node) {
-    output = node.value + output;
-    node = node.next;
-  }
-
-  return output;
-};
-
-const longArithmetic = fn => (numStr1, numStr2) => {
-  return linkedListToStr(fn(LinkedListNum(numStr1 + ''), LinkedListNum(numStr2 + '')));
-};
-
-const addLong = longArithmetic(addListNums);
-const multLong = longArithmetic(multListNums);
-
-const power = (base, exp) => {
-  let product = 1;
-
-  for (let i = 0; i < exp; i++) {
-    product = multLong(product, base);
-  }
-
-  return product;
-};
-
-const fact = num => {
-  let output = num + '';
-
-  for (let i = num - 1; i > 0; i--) {
-    output = multLong(output, i);
-  }
-
-  return output;
-};
-
-module.exports = {
-  addLong,
-  multLong,
-  power,
-  fact
-};
+*/
