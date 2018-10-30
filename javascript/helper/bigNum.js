@@ -76,45 +76,15 @@ module.exports = class LinkedListNum {
     return output;
   }
 
+  multiply (numString) {
+    this.head = this.times(numString).head;
+    return this;
+  }
+
   power (exp) {
     const base = this.toString();
     for (let i = 2; i <= exp; i++) this.times(base);
-
     return this;
   }
 };
 
-/*
-const multListNums = (l1, l2) => {
-  let [n1, n2] = [l1, l2];
-
-  let total = new Digit('0');
-
-  for (let col2 = 0, carry = 0; n2; col2++, n2 = n2.next){
-    let node, head, product;
-
-    const addNode = num => {
-      if (!node) {
-        node = new Digit(num);
-        head = node;
-      } else {
-        node.next = new Digit(num);
-        node = node.next;
-      }
-    };
-
-    for (let z = 0; z < col2; z++) addNode(0);
-
-    for (n1 = l1; n1; n1 = n1.next) {
-      product = n1.value * n2.value + carry;
-      carry = Math.floor(product / 10);
-      addNode(product % 10);
-    }
-
-    if (carry > 0) addNode(carry);
-
-    total = addListNums(total, head);
-  }
-  return total;
-};
-*/
